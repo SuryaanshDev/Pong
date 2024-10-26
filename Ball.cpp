@@ -1,8 +1,12 @@
 #include "Ball.h"
+#include <cstdlib>
+#include <ctime>
 
 Ball::Ball() :
 	ballSpeed(300.0f, 300.0f), radius(10.0f)
 {
+
+	srand(static_cast<unsigned>(time(0)));
 }
 
 Ball::~Ball()
@@ -44,21 +48,27 @@ void Ball::Update(float deltaTime, Paddle& paddle1, Paddle& paddle2)
 		ballSpeed.y = -ballSpeed.y;
 	}
 	
-	if (ballX < 0 || ballX + ball.getRadius() * 2 > 1000) {
+	if (ballX < 0 || ballX + ball.getRadius() * 2 > 800) {
 		
 		ball.setPosition(400, 300);
 		
 	}
 
 	// Paddle1 collision (Left paddle) 
-	if (ballX - ballRadius < paddleX1 + paddleWidth1) {
+	if (ballX - ballRadius < paddleX1 + paddleWidth1 &&
+		ballY + ballRadius > paddleY1 && 
+		ballY - ballRadius < paddleY1 + paddleHeight1) {
 
 		ballSpeed.x = -ballSpeed.x;
+
 	}
 	// Paddle2 collision (Right paddle)
-	if (ballX + ballRadius > paddleX2) {
+	if (ballX + ballRadius > paddleX2 &&
+		ballY +	 ballRadius > paddleY2 &&
+		ballY - ballRadius < paddleY2 + paddleHeight2) {
 
 		ballSpeed.x = -ballSpeed.x;
+
 	}
 
 }
